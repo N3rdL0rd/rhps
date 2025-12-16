@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="default">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rocky Horror Picture Show | N3rdL0rd's Audience Partici... ...pation Script</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Patrick+Hand&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --container-bg: rgba(255, 255, 255, 0.03);
+            --border-color: #333;
+            
+            --accent-gold: #ffc107;
+            --cb-std: #fff176;       
+            --cb-call: #69f0ae;      
+            --cb-answer: #ff80ab;    
+            
+            --event-blue: #80d8ff;
+            --event-bg: rgba(128, 216, 255, 0.05);
+            
+            --crowd-purple: #ce93d8;
+            --crowd-bg: rgba(206, 147, 216, 0.05);
+            
+            --cast-red: #f7acac;
+            --dim-grey: rgb(136, 118, 118);
+            
+            --tooltip-bg: #333;
+            --tooltip-text: #fff;
+        }
+
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-color: #f5f5f5;
+            --text-color: #212121;
+            --container-bg: rgba(0, 0, 0, 0.05);
+            --border-color: #ccc;
+            --accent-gold: #d32f2f;
+            --cb-std: #f57f17;      
+            --cb-call: #2e7d32;     
+            --cb-answer: #c2185b;   
+            --event-blue: #0277bd;
+            --event-bg: rgba(2, 119, 189, 0.1);
+            --crowd-purple: #7b1fa2;
+            --crowd-bg: rgba(123, 31, 162, 0.1);
+            --cast-red: #b71c1c;
+            --dim-grey: #666;
+            --tooltip-bg: #212121;
+            --tooltip-text: #fff;
+        }
+
+        /* Catppuccin Mocha */
+        [data-theme="mocha"] {
+            --bg-color: #1e1e2e;
+            --text-color: #cdd6f4;
+            --container-bg: #181825;
+            --border-color: #313244;
+            --accent-gold: #f9e2af; 
+            --cb-std: #f9e2af;      
+            --cb-call: #a6e3a1;     
+            --cb-answer: #f5c2e7;   
+            --event-blue: #89b4fa;  
+            --event-bg: rgba(137, 180, 250, 0.1);
+            --crowd-purple: #cba6f7;
+            --crowd-bg: rgba(203, 166, 247, 0.1);
+            --cast-red: #f38ba8;    
+            --dim-grey: #a6adc8;    
+            --tooltip-bg: #11111b;
+            --tooltip-text: #cdd6f4;
+        }
+
+        /* Catppuccin Latte (New) */
+        [data-theme="latte"] {
+            --bg-color: #eff1f5;
+            --text-color: #4c4f69;
+            --container-bg: #e6e9ef;
+            --border-color: #bcc0cc;
+            --accent-gold: #df8e1d;
+            --cb-std: #df8e1d;
+            --cb-call: #40a02b;
+            --cb-answer: #ea76cb;
+            --event-blue: #1e66f5;
+            --event-bg: rgba(30, 102, 245, 0.1);
+            --crowd-purple: #8839ef;
+            --crowd-bg: rgba(136, 57, 239, 0.1);
+            --cast-red: #d20f39;
+            --dim-grey: #6c6f85;
+            --tooltip-bg: #4c4f69;
+            --tooltip-text: #eff1f5;
+        }
+
+        /* Frank's Lab (High Contrast White/Red/Black) */
+        [data-theme="frank"] {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --container-bg: #f0f0f0;
+            --border-color: #000000;
+            --accent-gold: #000000;
+            --cb-std: #d50000;
+            --cb-call: #000000; /* Bold black */
+            --cb-answer: #d50000; /* Bold red */
+            --event-blue: #444;
+            --event-bg: #eee;
+            --crowd-purple: #000;
+            --crowd-bg: #f4f4f4;
+            --cast-red: #d50000;
+            --dim-grey: #555;
+            --tooltip-bg: #000;
+            --tooltip-text: #fff;
+        }
+
+        /* Midnight (Deep Slate) */
+        [data-theme="midnight"] {
+            --bg-color: #0f172a;
+            --text-color: #e2e8f0;
+            --container-bg: #1e293b;
+            --border-color: #334155;
+            --accent-gold: #fbbf24;
+            --cb-std: #fde047;
+            --cb-call: #86efac;
+            --cb-answer: #f9a8d4;
+            --event-blue: #38bdf8;
+            --event-bg: rgba(56, 189, 248, 0.1);
+            --crowd-purple: #c084fc;
+            --crowd-bg: rgba(192, 132, 252, 0.1);
+            --cast-red: #f87171;
+            --dim-grey: #94a3b8;
+            --tooltip-bg: #020617;
+            --tooltip-text: #fff;
+        }
+
+        /* Dracula */
+        [data-theme="dracula"] {
+            --bg-color: #282a36;
+            --text-color: #f8f8f2;
+            --container-bg: #44475a;
+            --border-color: #6272a4;
+            --accent-gold: #f1fa8c;
+            --cb-std: #f1fa8c;
+            --cb-call: #50fa7b;
+            --cb-answer: #ff79c6;
+            --event-blue: #8be9fd;
+            --event-bg: rgba(139, 233, 253, 0.1);
+            --crowd-purple: #bd93f9;
+            --crowd-bg: rgba(189, 147, 249, 0.1);
+            --cast-red: #ff5555;
+            --dim-grey: #6272a4;
+            --tooltip-bg: #44475a;
+            --tooltip-text: #f8f8f2;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier Prime', monospace;
+            font-size: 18px;
+            line-height: 1.8;
+            margin: 0;
+            padding: 40px 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Theme Switcher Styles */
+        .theme-switch-wrapper {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        #theme-select {
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: sans-serif;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 65%;
+            margin: 0 auto;
+        }
+
+        .title-page {
+            text-align: center;
+            padding: 80px 0 60px 0;
+            margin-bottom: 40px;
+            border-bottom: 2px dashed var(--border-color);
+        }
+
+        .main-title {
+            font-size: 3.5em;
+            color: var(--cast-red);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin: 0 0 10px 0;
+            line-height: 1.1;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+        }
+
+        .sub-title {
+            font-family: 'Patrick Hand', cursive;
+            color: var(--accent-gold);
+            font-size: 2em;
+            transform: rotate(-2deg);
+            display: inline-block;
+            border: 2px solid var(--accent-gold);
+            padding: 5px 15px;
+            border-radius: 4px;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .credits {
+            margin-top: 30px;
+            color: var(--dim-grey);
+            font-size: 0.9em;
+        }
+
+        .github-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+            margin-top: 15px;
+            font-family: sans-serif;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .github-btn:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .github-icon {
+            fill: var(--text-color);
+            width: 20px;
+            height: 20px;
+        }
+
+        .contrib-note {
+            margin-top: 10px;
+            font-size: 0.8em;
+            color: var(--crowd-purple);
+            font-style: italic;
+        }
+
+        .toc-container {
+            background: var(--container-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px 40px;
+            margin-bottom: 60px;
+            border-radius: 8px;
+        }
+
+        .toc-title {
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.5em;
+            letter-spacing: 2px;
+        }
+
+        .toc-list {
+            columns: 2;
+            list-style-position: inside;
+            color: var(--dim-grey);
+        }
+
+        .toc-list li {
+            margin-bottom: 8px;
+            break-inside: avoid;
+        }
+
+        .toc-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.9em;
+        }
+
+        .toc-list a:hover {
+            color: var(--cast-red);
+        }
+
+        .hlink {
+            color: var(--dim-grey);
+            text-decoration: none;
+            margin-right: 5px;
+            opacity: 0.5;
+        }
+
+        .hlink:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 800px) {
+            .toc-list {
+                columns: 1;
+            }
+
+            .container {
+                max-width: 90%;
+            }
+        }
+
+        h2 {
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--accent-gold);
+            margin-top: 60px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            scroll-margin-top: 20px;
+        }
+
+        .direction {
+            color: var(--dim-grey);
+            font-style: italic;
+            margin: 15px 0 15px 160px;
+            font-size: 0.9em;
+        }
+
+        .crowd-block {
+            color: var(--crowd-purple);
+            font-weight: bold;
+            margin: 5px 0 5px 160px;
+            border-left: 4px solid var(--crowd-purple);
+            padding: 10px 20px;
+            background: var(--crowd-bg);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .cast-block {
+            color: var(--cast-red);
+            margin: 5px 5px 5px 160px;
+            padding: 1px 1px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .dialogue-block {
+            display: flex;
+            margin-bottom: 20px;
+            align-items: baseline;
+        }
+
+        .char-col {
+            width: 150px;
+            flex-shrink: 0;
+            text-align: right;
+            padding-right: 25px;
+            font-weight: 700;
+            color: var(--text-color); 
+            opacity: 0.9;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        .lines-col {
+            flex-grow: 1;
+        }
+
+        .line {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .event-cue,
+        .crowd-cue,
+        .cast-cue,
+        .cb-std,
+        .cb-call,
+        .cb-answer {
+            position: relative; 
+            cursor: help;
+        }
+
+        .event-cue,
+        .crowd-cue,
+        .cast-cue {
+            display: inline-block;
+            font-family: sans-serif;
+            font-size: 0.75em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .event-cue {
+            color: var(--event-blue);
+            border: 1px solid var(--event-blue);
+            background: var(--event-bg);
+        }
+
+        .crowd-cue {
+            color: var(--crowd-purple);
+            border: 1px solid var(--crowd-purple);
+        }
+
+        .cast-cue {
+            color: var(--bg-color); 
+            background: var(--cast-red);
+        }
+
+        .cb-std,
+        .cb-call,
+        .cb-answer {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.1em;
+            margin: 0 4px;
+            display: inline-block;
+            border-bottom: 1px dotted transparent;
+        }
+        
+        .cb-std:hover, .cb-call:hover, .cb-answer:hover {
+            border-bottom-color: var(--dim-grey);
+        }
+
+        .cb-std { color: var(--cb-std); }
+        .cb-call { color: var(--cb-call); }
+        .cb-answer { color: var(--cb-answer); }
+
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--tooltip-bg);
+            color: var(--tooltip-text);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: sans-serif;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            font-weight: normal;
+        }
+
+        [data-tooltip]::before {
+            content: '';
+            position: absolute;
+            bottom: 115%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--tooltip-bg) transparent transparent transparent;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s;
+            z-index: 1000;
+        }
+
+        [data-tooltip]:hover::after,
+        [data-tooltip]:hover::before,
+        [data-tooltip]:focus::after,
+        [data-tooltip]:focus::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        [data-tooltip]:focus {
+            outline: none;
+            filter: brightness(1.2);
+        }
+
+        .cb-sep {
+            color: var(--dim-grey);
+            font-family: monospace;
+            font-size: 0.8em;
+        }
+
+        .overlap-group {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: bottom;
+            line-height: 1;
+            margin: 0 2px;
+        }
+
+        .overlap-cb {
+            font-size: 0.8em;
+            text-align: center;
+            margin-bottom: 2px;
+            white-space: nowrap;
+        }
+
+        .overlap-cb .cb-std,
+        .overlap-cb .cb-call,
+        .overlap-cb .cb-answer {
+            margin: 0;
+            transform: rotate(0deg);
+        }
+
+        .overlap-text {
+            border-bottom: 1px dashed #666;
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .dialogue-block {
+                flex-direction: column;
+            }
+
+            .char-col {
+                width: 100%;
+                text-align: left;
+                margin-bottom: 5px;
+            }
+
+            .direction {
+                margin-left: 0;
+                padding-left: 20px;
+                border-left: 2px solid var(--border-color);
+            }
+            
+            [data-tooltip]::after {
+               font-size: 12px;
+            }
+        }
+
+        @media print {
+            body {
+                background-color: white !important;
+                color: black !important;
+                font-size: 12pt;
+                padding: 0;
+                margin: 0;
+            }
+
+            .theme-switch-wrapper,
+            .github-btn,
+            .contrib-note,
+            .hlink,
+            [data-tooltip]::after,
+            [data-tooltip]::before {
+                display: none !important;
+            }
+
+            .container {
+                max-width: 100%;
+                margin: 0;
+                padding: 1cm;
+            }
+
+            .char-col, 
+            .direction,
+            .toc-list,
+            .credits,
+            .main-title,
+            .sub-title,
+            .toc-title {
+                color: #000 !important;
+                text-shadow: none !important;
+            }
+
+            .crowd-block, .toc-container {
+                background: none !important;
+                border-color: #000 !important;
+            }
+
+            .cb-std, .cb-call, .cb-answer {
+                color: #000 !important;
+                font-weight: bold;
+                border: 1px solid #ccc;
+                padding: 0 4px;
+                border-radius: 3px;
+            }
+            
+            .cast-cue, .event-cue, .crowd-cue {
+                color: #000 !important;
+                background: #eee !important;
+                border: 1px solid #000 !important;
+            }
+
+            .dialogue-block, .crowd-block, h2 {
+                break-inside: avoid;
+            }
+
+            h2 {
+                margin-top: 20px;
+                border-bottom: 2px solid #000 !important;
+            }
+            
+            a {
+                text-decoration: none;
+                color: black;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="theme-switch-wrapper">
+        <select id="theme-select" aria-label="Select Theme">
+            <option value="default">Default (Dark)</option>
+            <option value="midnight">Midnight (Slate)</option>
+            <option value="mocha">Catppuccin Mocha</option>
+            <option value="dracula">Dracula</option>
+            <option disabled>──────────</option>
+            <option value="light">Light Mode</option>
+            <option value="latte">Catppuccin Latte</option>
+            <option value="frank">Frank's Lab (High Contrast)</option>
+        </select>
+    </div>
+
+    <div class="container">
+
+        <div class="title-page">
+            <h1 class="main-title">The Rocky Horror Picture Show</h1>
+            <div class="sub-title">N3rdL0rd's Audience Partici... ...pation Script</div>
+
+            <div class="credits">
+                <p>Original script by <strong>Richard O'Brien</strong> and <strong>Jim Sharman</strong></p>
+
+                <a href="https://github.com/N3rdL0rd/rhps" target="_blank" class="github-btn">
+                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.419-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                    </svg>
+                    Contribute Callbacks on GitHub!
+                </a>
+                <p class="contrib-note">Have a better line? Submit a Pull Request!</p>
+            </div>
+        </div>
+
+        <div class="toc-container">
+            <div class="toc-title">Index</div>
+            <ol class="toc-list">
+                {% for scene in scenes %}
+                <li>
+                    <a href="#{{ scene.id }}">{{ scene.title }}</a>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+
+        {% for element in script %}
+
+        {% if element.type == 'SceneHeader' %}
+        <h2 id="{{ element.id }}"><a href="#{{ element.id }}" class="hlink">#</a> {{ element.number }}. {{ element.title
+            }}</h2>
+
+        {% elif element.type == 'StageDirection' %}
+        <div class="direction">
+            {% for line in element.lines %}
+            <div>{{ line | render_markup }}</div>
+            {% endfor %}
+        </div>
+
+        {% elif element.type == 'CrowdAction' %}
+        <div class="crowd-block">
+            {% for line in element.lines %}
+            <div>{{ line | render_markup }}</div>
+            {% endfor %}
+        </div>
+
+        {% elif element.type == 'CastAction' %}
+        <div class="cast-block">
+            {% for line in element.lines %}
+            <div>{{ line | render_markup }}</div>
+            {% endfor %}
+        </div>
+
+        {% elif element.type == 'Dialogue' %}
+        <div class="dialogue-block">
+            <div class="char-col">{{ element.character }}</div>
+            <div class="lines-col">
+                {% for line in element.lines %}
+                <div class="line">{{ line | render_markup }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% endfor %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const annotations = [
+                { selector: '.event-cue', label: 'Screen Event' },
+                { selector: '.crowd-cue', label: 'Prop/Action' },
+                { selector: '.cast-cue', label: 'Screenfuck (CAST ONLY)' },
+                { selector: '.cb-std', label: 'Callback' },
+                { selector: '.cb-call', label: 'Call' },
+                { selector: '.cb-answer', label: 'Response' }
+            ];
+
+            annotations.forEach(type => {
+                const elements = document.querySelectorAll(type.selector);
+                elements.forEach(el => {
+                    el.setAttribute('data-tooltip', type.label);
+                    el.setAttribute('tabindex', '0');
+                });
+            });
+            
+            const themeSelect = document.getElementById('theme-select');
+            const html = document.documentElement;
+            
+            const savedTheme = localStorage.getItem('rhps-theme') || 'default';
+            html.setAttribute('data-theme', savedTheme);
+            themeSelect.value = savedTheme;
+            
+            themeSelect.addEventListener('change', (e) => {
+                const newTheme = e.target.value;
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('rhps-theme', newTheme);
+            });
+        });
+    </script>
+</body>
+
+</html>

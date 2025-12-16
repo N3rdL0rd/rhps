@@ -1,0 +1,9 @@
+[project]
+name = "rhps"
+version = "0.1.0"
+description = "N3rdL0rd's Rocky Horror Picture Show Audience Partici... ...pation Script"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "jinja2>=3.1.6",
+]
