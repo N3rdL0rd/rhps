@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="default">
+<html lang="en" data-theme="default" data-font="default">
 
 <head>
     <meta charset="UTF-8">
@@ -7,11 +7,11 @@
     <title>The Rocky Horror Picture Show | N3rdL0rd's Audience Partici... ...pation Script</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Patrick+Hand&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Indie+Flower&family=Lexend:wght@300;400;600&family=Patrick+Hand&family=Roboto:wght@400;700&family=Gaegu&display=swap&display=swap" rel="stylesheet">
 
     <style>
         :root {
+            /* --- COLOR VARIABLES --- */
             --bg-color: #121212;
             --text-color: #e0e0e0;
             --container-bg: rgba(255, 255, 255, 0.03);
@@ -33,9 +33,31 @@
             
             --tooltip-bg: #333;
             --tooltip-text: #fff;
+
+            /* --- FONT DEFAULTS --- */
+            --font-script: 'Courier Prime', monospace;
+            --font-cb: 'Patrick Hand', cursive;
+            --line-height: 1.8;
+            --letter-spacing: normal;
         }
 
-        /* Light Theme */
+        [data-font="dyslexic"] {
+            --font-script: 'Lexend', sans-serif;
+            --font-cb: 'Lexend', sans-serif;
+            --line-height: 2.0; /* Increased for breathing room */
+            --letter-spacing: 0.03em;
+        }
+
+        [data-font="alt-cb"] {
+            --font-script: 'Courier Prime', monospace;
+            font-family: "Gaegu", cursive;
+        }
+
+        [data-font="sans"] {
+            --font-script: 'Roboto', sans-serif;
+            --font-cb: 'Patrick Hand', cursive;
+        }
+
         [data-theme="light"] {
             --bg-color: #f5f5f5;
             --text-color: #212121;
@@ -55,7 +77,6 @@
             --tooltip-text: #fff;
         }
 
-        /* Catppuccin Mocha */
         [data-theme="mocha"] {
             --bg-color: #1e1e2e;
             --text-color: #cdd6f4;
@@ -75,7 +96,6 @@
             --tooltip-text: #cdd6f4;
         }
 
-        /* Catppuccin Latte (New) */
         [data-theme="latte"] {
             --bg-color: #eff1f5;
             --text-color: #4c4f69;
@@ -95,7 +115,6 @@
             --tooltip-text: #eff1f5;
         }
 
-        /* Frank's Lab (High Contrast White/Red/Black) */
         [data-theme="frank"] {
             --bg-color: #ffffff;
             --text-color: #000000;
@@ -103,8 +122,8 @@
             --border-color: #000000;
             --accent-gold: #000000;
             --cb-std: #d50000;
-            --cb-call: #000000; /* Bold black */
-            --cb-answer: #d50000; /* Bold red */
+            --cb-call: #000000; 
+            --cb-answer: #d50000; 
             --event-blue: #444;
             --event-bg: #eee;
             --crowd-purple: #000;
@@ -115,7 +134,6 @@
             --tooltip-text: #fff;
         }
 
-        /* Midnight (Deep Slate) */
         [data-theme="midnight"] {
             --bg-color: #0f172a;
             --text-color: #e2e8f0;
@@ -135,7 +153,6 @@
             --tooltip-text: #fff;
         }
 
-        /* Dracula */
         [data-theme="dracula"] {
             --bg-color: #282a36;
             --text-color: #f8f8f2;
@@ -162,23 +179,27 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Courier Prime', monospace;
+            font-family: var(--font-script);
             font-size: 18px;
-            line-height: 1.8;
+            line-height: var(--line-height);
+            letter-spacing: var(--letter-spacing);
             margin: 0;
             padding: 40px 20px;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Theme Switcher Styles */
-        .theme-switch-wrapper {
+        .controls-wrapper {
             position: absolute;
             top: 20px;
             right: 20px;
             z-index: 100;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
         }
 
-        #theme-select {
+        .rhps-select {
             background: var(--bg-color);
             color: var(--text-color);
             border: 1px solid var(--border-color);
@@ -186,6 +207,7 @@
             border-radius: 5px;
             font-family: sans-serif;
             cursor: pointer;
+            font-size: 0.9em;
         }
 
         .container {
@@ -212,7 +234,7 @@
         }
 
         .sub-title {
-            font-family: 'Patrick Hand', cursive;
+            font-family: var(--font-cb);
             color: var(--accent-gold);
             font-size: 2em;
             transform: rotate(-2deg);
@@ -280,7 +302,7 @@
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
             margin-bottom: 20px;
-            font-family: 'Patrick Hand', cursive;
+            font-family: var(--font-cb);
             font-size: 1.5em;
             letter-spacing: 2px;
         }
@@ -437,7 +459,7 @@
         .cb-std,
         .cb-call,
         .cb-answer {
-            font-family: 'Patrick Hand', cursive;
+            font-family: var(--font-cb);
             font-size: 1.1em;
             margin: 0 4px;
             display: inline-block;
@@ -557,6 +579,12 @@
             [data-tooltip]::after {
                font-size: 12px;
             }
+
+            .controls-wrapper {
+                justify-content: center;
+                width: 100%;
+                right: 0;
+            }
         }
 
         @media print {
@@ -566,9 +594,11 @@
                 font-size: 12pt;
                 padding: 0;
                 margin: 0;
+                line-height: 1.4; 
+                letter-spacing: normal;
             }
 
-            .theme-switch-wrapper,
+            .controls-wrapper,
             .github-btn,
             .contrib-note,
             .hlink,
@@ -631,8 +661,8 @@
 </head>
 
 <body>
-    <div class="theme-switch-wrapper">
-        <select id="theme-select" aria-label="Select Theme">
+    <div class="controls-wrapper">
+        <select id="theme-select" class="rhps-select" aria-label="Select Theme">
             <option value="default">Default (Dark)</option>
             <option value="midnight">Midnight (Slate)</option>
             <option value="mocha">Catppuccin Mocha</option>
@@ -641,6 +671,13 @@
             <option value="light">Light Mode</option>
             <option value="latte">Catppuccin Latte</option>
             <option value="frank">Frank's Lab (High Contrast)</option>
+        </select>
+
+        <select id="font-select" class="rhps-select" aria-label="Select Font Style">
+            <option value="default">Default (Typewriter)</option>
+            <option value="dyslexic">Dyslexia Friendly</option>
+            <option value="alt-cb">Alt. Callbacks</option>
+            <option value="sans">Modern (No Monospace)</option>
         </select>
     </div>
 
@@ -735,10 +772,11 @@
                 });
             });
             
-            const themeSelect = document.getElementById('theme-select');
             const html = document.documentElement;
-            
+
+            const themeSelect = document.getElementById('theme-select');
             const savedTheme = localStorage.getItem('rhps-theme') || 'default';
+            
             html.setAttribute('data-theme', savedTheme);
             themeSelect.value = savedTheme;
             
@@ -746,6 +784,18 @@
                 const newTheme = e.target.value;
                 html.setAttribute('data-theme', newTheme);
                 localStorage.setItem('rhps-theme', newTheme);
+            });
+
+            const fontSelect = document.getElementById('font-select');
+            const savedFont = localStorage.getItem('rhps-font') || 'default';
+
+            html.setAttribute('data-font', savedFont);
+            fontSelect.value = savedFont;
+
+            fontSelect.addEventListener('change', (e) => {
+                const newFont = e.target.value;
+                html.setAttribute('data-font', newFont);
+                localStorage.setItem('rhps-font', newFont);
             });
         });
     </script>
