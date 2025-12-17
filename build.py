@@ -64,17 +64,21 @@ class RhpsParser:
                 current_dialogue = None
                 continue
 
+            if stripped_line.startswith('#'):
+                title = stripped_line.lstrip('#').strip()
+                elements.append(SceneHeader(title=title))
+                current_dialogue = None
+                continue
+
             # Crowd Actions (( ... ))
             if stripped_line.startswith('((') and stripped_line.endswith('))'):
-                content = stripped_line[2:-2].strip()
-                elements.append(CrowdAction(lines=[content]))
+                elements.append(CrowdAction(lines=[stripped_line])) 
                 current_dialogue = None
                 continue
 
             # Cast Actions [[ ... ]]
             if stripped_line.startswith('[[') and stripped_line.endswith(']]'):
-                content = stripped_line[2:-2].strip()
-                elements.append(CastAction(lines=[content]))
+                elements.append(CastAction(lines=[stripped_line]))
                 current_dialogue = None
                 continue
 
@@ -111,8 +115,8 @@ def parse_markup_filter(text):
                 f'<span class="overlap-text">{dialogue_text}</span>'
                 f'</span>')
     text = re.sub(r'\{(.*?)\}\s*&lt;(.*?)&gt;', overlap_replacer, text)
-    text = re.sub(r'\(\((.*?)\)\)', r'<span class="crowd-cue">PROPS: \1</span>', text)
-    text = re.sub(r'\[\[(.*?)\]\]', r'<span class="cast-cue">CAST: \1</span>', text)
+    text = re.sub(r'\(\((.*?)\)\)', r'<span class="crowd-cue">\1</span>', text)
+    text = re.sub(r'\[\[(.*?)\]\]', r'<span class="cast-cue">CAST ONLY: \1</span>', text)
     text = re.sub(r'\[(.*?)\]', r'<span class="event-cue">\1</span>', text)
     text = re.sub(r'&lt;(.*?)&gt;', lambda m: render_callback_content(m.group(1)), text)
     return text
